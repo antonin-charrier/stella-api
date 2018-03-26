@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace GaiaAPI.Models
+namespace ourakoz.GaiaAPI.Models
 {
     public class CardContext : DbContext
     {
-        public CardContext(DbContextOptions<CardContext> options)
+        public CardContext(DbContextOptions options)
             : base(options)
         {
         }

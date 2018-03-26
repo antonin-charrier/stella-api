@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc;
-using GaiaAPI.Models;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc;
+using ourakoz.GaiaAPI.Models;
 
-namespace GaiaAPI.Controllers
+namespace ourakoz.GaiaAPI.Controllers
 {
-    [Route("api/card")]
+    [Route("api/[controller]")]
     public class CardController : Controller
     {
         private readonly CardContext _context;
@@ -13,12 +14,9 @@ namespace GaiaAPI.Controllers
         public CardController(CardContext context)
         {
             _context = context;
-
-            if (_context.CardItems.Count() == 0)
-            {
-                _context.CardItems.Add(new CardItem { Name = "Item1" });
-                _context.SaveChanges();
-            }
+            if (_context.CardItems.Any()) return;
+            _context.CardItems.Add(new CardItem(Guid.NewGuid(), "Card1"));
+            _context.SaveChanges();
         }
 
         [HttpGet]
@@ -28,7 +26,7 @@ namespace GaiaAPI.Controllers
         }
 
         [HttpGet("{id}", Name = "GetCard")]
-        public IActionResult GetById(long id)
+        public IActionResult GetById(Guid id)
         {
             var item = _context.CardItems.FirstOrDefault(t => t.Id == id);
             if (item == null)
@@ -53,7 +51,7 @@ namespace GaiaAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(long id, [FromBody] CardItem item)
+        public IActionResult Update(Guid id, [FromBody] CardItem item)
         {
             if (item == null || item.Id != id)
             {
@@ -74,7 +72,7 @@ namespace GaiaAPI.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(long id)
+        public IActionResult Delete(Guid id)
         {
             var card = _context.CardItems.FirstOrDefault(t => t.Id == id);
             if (card == null)
