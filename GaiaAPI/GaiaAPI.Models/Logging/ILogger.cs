@@ -6,14 +6,6 @@
     public interface ILogger
     {
         /// <summary>
-        /// Writes a message to the log
-        /// </summary>
-        /// <param name="category">A String of the category to write to the log</param>
-        /// <param name="level">A LogLevel value of the level of this message</param>
-        /// <param name="message">A String of the message to write to the log</param>
-        void WriteMessage(string category, LogLevel level, string message);
-
-        /// <summary>
         /// Writes a fatal error to the log
         /// </summary>
         /// <param name="category">A String of the category to write to the log</param>
@@ -46,7 +38,6 @@
         /// </summary>
         /// <param name="category">A String of the category to write to the log</param>
         /// <param name="message">A String of the message to write to the log</param>
-        void Verbose(string category, string message);
-
+        void Debug(string category, string message);
     }
 }

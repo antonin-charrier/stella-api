@@ -4,6 +4,8 @@ namespace ourakoz.GaiaAPI.Models
 {
     public class CardItem
     {
+        public CardItem() { }
+
         public CardItem(Guid id, string name)
         {
             if (id.Equals(Guid.Empty)) throw new ArgumentException("Id must not be empty.");

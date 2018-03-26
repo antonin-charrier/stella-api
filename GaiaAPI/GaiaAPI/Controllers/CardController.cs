@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using ourakoz.GaiaAPI.Logging;
 using ourakoz.GaiaAPI.Models;
 
 namespace ourakoz.GaiaAPI.Controllers
@@ -10,12 +11,16 @@ namespace ourakoz.GaiaAPI.Controllers
     public class CardController : Controller
     {
         private readonly CardContext _context;
+        private static readonly Logger Logger = new Logger();
+        private static readonly string Category = typeof(CardController).FullName;
 
         public CardController(CardContext context)
         {
             _context = context;
             if (_context.CardItems.Any()) return;
-            _context.CardItems.Add(new CardItem(Guid.NewGuid(), "Card1"));
+            const string name = "Card1";
+            _context.CardItems.Add(new CardItem(Guid.NewGuid(), name));
+            Logger.Info(Category, $"A card has been created : {name}");
             _context.SaveChanges();
         }
 
