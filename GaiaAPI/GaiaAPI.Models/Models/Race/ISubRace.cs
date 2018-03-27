@@ -1,4 +1,4 @@
-﻿namespace ourakoz.GaiaAPI.Models.Models
+﻿namespace ourakoz.GaiaAPI.Models.Models.Race
 {
     public interface ISubRace : IRace
     {
