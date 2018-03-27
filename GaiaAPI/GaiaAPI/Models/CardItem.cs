@@ -1,8 +1,12 @@
 ﻿using System;
+using ourakoz.GaiaAPI.Models.Models;
+using ourakoz.GaiaAPI.Models.Models.CardItem;
+using ourakoz.GaiaAPI.Models.Models.Enums;
+using Type = ourakoz.GaiaAPI.Models.Models.Enums.Type;
 
 namespace ourakoz.GaiaAPI.Models
 {
-    public class CardItem
+    public class CardItem : ICardItem
     {
         public CardItem() { }
 
@@ -16,6 +20,12 @@ namespace ourakoz.GaiaAPI.Models
         }
 
         public Guid Id { get; set; }
-        public string Name { get; set; }
+        public string Name { get; }
+        public IFaction Faction { get; }
+        public Category Category { get; }
+        public Type Type { get; }
+        public int Level { get; }
+        public int ManaCost { get; }
+        public int LifeCost { get; }
     }
 }

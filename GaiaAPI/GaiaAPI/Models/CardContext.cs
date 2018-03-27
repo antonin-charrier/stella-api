@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ourakoz.GaiaAPI.Models.Models.CardItem;
 
 namespace ourakoz.GaiaAPI.Models
 {

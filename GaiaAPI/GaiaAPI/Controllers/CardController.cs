@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using ourakoz.GaiaAPI.Logging;
 using ourakoz.GaiaAPI.Models;
+using ourakoz.GaiaAPI.Models.Models.CardItem;
 
 namespace ourakoz.GaiaAPI.Controllers
 {
@@ -18,15 +19,16 @@ namespace ourakoz.GaiaAPI.Controllers
         {
             _context = context;
             if (_context.CardItems.Any()) return;
-            const string name = "Card1";
-            _context.CardItems.Add(new CardItem(Guid.NewGuid(), name));
-            Logger.Info(Category, $"A card has been created : {name}");
+            var card = new CardItem(Guid.NewGuid(), "Card1");
+            _context.CardItems.Add(card);
+            Logger.Info(Category, $"Created card {{ Id = { card.Id }, Name = { card.Name } }}");
             _context.SaveChanges();
         }
 
         [HttpGet]
-        public IEnumerable<CardItem> GetAll()
+        public IEnumerable<ICardItem> GetAll()
         {
+            Logger.Info(Category, "Retrieved all cards");
             return _context.CardItems.ToList();
         }
 
@@ -36,58 +38,60 @@ namespace ourakoz.GaiaAPI.Controllers
             var item = _context.CardItems.FirstOrDefault(t => t.Id == id);
             if (item == null)
             {
+                Logger.Warn(Category, $"Did not find card {{ Id = { id } }}");
                 return NotFound();
             }
+            Logger.Info(Category, $"Retrieved card {{ Id = { item.Id }, Name = { item.Name } }}");
             return new ObjectResult(item);
         }
 
-        [HttpPost]
-        public IActionResult Create([FromBody] CardItem item)
-        {
-            if (item == null)
-            {
-                return BadRequest();
-            }
+        //[HttpPost]
+        //public IActionResult Create([FromBody] ICardItem item)
+        //{
+        //    if (item == null)
+        //    {
+        //        return BadRequest();
+        //    }
 
-            _context.CardItems.Add(item);
-            _context.SaveChanges();
+        //    _context.CardItems.Add(item);
+        //    _context.SaveChanges();
 
-            return CreatedAtRoute("GetCard", new { id = item.Id }, item);
-        }
+        //    return CreatedAtRoute("GetCard", new { id = item.Id }, item);
+        //}
 
-        [HttpPut("{id}")]
-        public IActionResult Update(Guid id, [FromBody] CardItem item)
-        {
-            if (item == null || item.Id != id)
-            {
-                return BadRequest();
-            }
+        //[HttpPut("{id}")]
+        //public IActionResult Update(Guid id, [FromBody] ICardItem item)
+        //{
+        //    if (item == null || item.Id != id)
+        //    {
+        //        return BadRequest();
+        //    }
 
-            var card = _context.CardItems.FirstOrDefault(t => t.Id == id);
-            if (card == null)
-            {
-                return NotFound();
-            }
+        //    var card = _context.CardItems.FirstOrDefault(t => t.Id == id);
+        //    if (card == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            card.Name = item.Name;
+        //    card.Name = item.Name;
 
-            _context.CardItems.Update(card);
-            _context.SaveChanges();
-            return new NoContentResult();
-        }
+        //    _context.CardItems.Update(card);
+        //    _context.SaveChanges();
+        //    return new NoContentResult();
+        //}
 
-        [HttpDelete("{id}")]
-        public IActionResult Delete(Guid id)
-        {
-            var card = _context.CardItems.FirstOrDefault(t => t.Id == id);
-            if (card == null)
-            {
-                return NotFound();
-            }
+    //    [HttpDelete("{id}")]
+    //    public IActionResult Delete(Guid id)
+    //    {
+    //        var card = _context.CardItems.FirstOrDefault(t => t.Id == id);
+    //        if (card == null)
+    //        {
+    //            return NotFound();
+    //        }
 
-            _context.CardItems.Remove(card);
-            _context.SaveChanges();
-            return new NoContentResult();
-        }
+    //        _context.CardItems.Remove(card);
+    //        _context.SaveChanges();
+    //        return new NoContentResult();
+    //    }
     }
 }
