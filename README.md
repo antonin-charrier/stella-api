@@ -1,4 +1,4 @@
-# GaiaAPI
-.NET Core Web API for [Gaia] Unity project
+# Stella API
+.NET Core Web API for [Stella] Unity project
 
-[Gaia]: https://github.com/antonin-charrier/Gaia
+[Stella]: https://github.com/antonin-charrier/stella
