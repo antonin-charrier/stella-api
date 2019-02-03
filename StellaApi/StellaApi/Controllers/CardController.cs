@@ -13,7 +13,7 @@ namespace ourakoz.StellaApi.Controllers
     {
         private readonly CardContext _context;
         private static readonly Logger Logger = new Logger();
-        private static readonly string Category = typeof(CardController).FullName;
+        private static readonly string LogCategory = typeof(CardController).FullName;
 
         public CardController(CardContext context)
         {
@@ -21,14 +21,14 @@ namespace ourakoz.StellaApi.Controllers
             if (_context.CardItems.Any()) return;
             var card = new CardItem(Guid.NewGuid(), "Card1");
             _context.CardItems.Add(card);
-            Logger.Info(Category, $"Created card {{ Id = { card.Id }, Name = { card.Name } }}");
+            Logger.Info(LogCategory, $"Created card {{ Id = { card.Id }, Name = { card.Name } }}");
             _context.SaveChanges();
         }
 
         [HttpGet]
         public IEnumerable<ICardItem> GetAll()
         {
-            Logger.Info(Category, "Retrieved all cards");
+            Logger.Info(LogCategory, "Retrieved all cards");
             return _context.CardItems.ToList();
         }
 
@@ -38,10 +38,10 @@ namespace ourakoz.StellaApi.Controllers
             var item = _context.CardItems.FirstOrDefault(t => t.Id == id);
             if (item == null)
             {
-                Logger.Warn(Category, $"Did not find card {{ Id = { id } }}");
+                Logger.Warn(LogCategory, $"Did not find card {{ Id = { id } }}");
                 return NotFound();
             }
-            Logger.Info(Category, $"Retrieved card {{ Id = { item.Id }, Name = { item.Name } }}");
+            Logger.Info(LogCategory, $"Retrieved card {{ Id = { item.Id }, Name = { item.Name } }}");
             return new ObjectResult(item);
         }
 

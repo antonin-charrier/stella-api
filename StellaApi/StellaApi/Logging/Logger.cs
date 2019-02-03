@@ -5,6 +5,10 @@ using LogLevel = ourakoz.StellaApi.Models.Logging.LogLevel;
 
 namespace ourakoz.StellaApi.Logging
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// Common logging class
+    /// </summary>
     public class Logger : ILogger
     {
         private static readonly NLog.Logger NLogger = LogManager.GetCurrentClassLogger();
